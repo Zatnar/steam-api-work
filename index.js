@@ -20,8 +20,8 @@ var callAPI = function (url, callback) {
       timeout: 1000*20
     },
     function (error, response, body) {
-	if ((error) || (response.statusCode != 200) || (response == null) || (response.result == undefined)) {
-	    log.error('call failed, retrying' + error);
+	if ((error != null) || (response.statusCode != 200) || (response == null)) {
+	    log.error('call failed, retrying ' + error);
 	    callAPI(url, callback);
 	    return;
 	} else {
