@@ -16,7 +16,8 @@ var callAPI = function (url, callback) {
       pool:{
         maxSockets: 500
       },
-      uri: url
+      uri: url,
+      timeout: 1000*5
     },
     function (error, response, body) {
 	if ((error != null) || (response.statusCode != 200) || (response == null)) {
