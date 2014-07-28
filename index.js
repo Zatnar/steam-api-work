@@ -291,7 +291,7 @@ var loadTF2Schema = function (apikey, lang, force, callback) {
 var loadCSGOSchema = function (apikey, lang, force, callback) {
   var schemaURL = "http://api.steampowered.com/IEconItems_730/GetSchema/v2/?key=" + apikey + "&language=" + lang;
   log.info(schemaURL);
-  var cache = './schema.cache';
+  var cache = './schemacsgo.cache';
   if (force) {
     if (fs.existsSync(cache)) {
       fs.unlinkSync(cache);
@@ -346,7 +346,8 @@ var isP2P = function (inventory) {
 };
 
 exports.isP2P = isP2P;
-exports.loadSchema = loadSchema;
+exports.loadTF2Schema = loadTF2Schema;
+exports.loadCSGOSchema = loadCSGOSchema;
 exports.loadInventory = loadInventory;
 exports.loadFriends = loadFriends;
 exports.loadBPTF = loadBPTF;
