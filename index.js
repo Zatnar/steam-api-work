@@ -16,8 +16,7 @@ var callAPI = function (url, callback) {
       pool:{
         maxSockets: 500
       },
-      uri: url,
-      timeout: 1000*20
+      uri: url
     },
     function (error, response, body) {
 	if ((error != null) || (response.statusCode != 200) || (response == null)) {
@@ -259,8 +258,38 @@ var loadBPTF = function (apikey, force, callback) {
   }
 };
 
-var loadSchema = function (apikey, game, lang, force, callback) {
-  var schemaURL = "http://api.steampowered.com/IEconItems_" + game + "/GetSchema/v0001/?key=" + apikey + "&language=" + lang;
+var loadTF2Schema = function (apikey, lang, force, callback) {
+  var schemaURL = "http://api.steampowered.com/IEconItems_440/GetSchema/v0001/?key=" + apikey + "&language=" + lang;
+  log.info(schemaURL);
+  var cache = './schema.cache';
+  if (force) {
+    if (fs.existsSync(cache)) {
+      fs.unlinkSync(cache);
+    }
+    log.info('Downloading schema');
+    callAPI(schemaURL, function(result) {
+      schemaD = result.result;
+      fs.writeFileSync(cache, JSON.stringify(schemaD));
+      callback(schemaD);
+      return;
+    });
+  } else {
+    try {
+      schemaD = JSON.parse(fs.readFileSync(cache));
+      log.info('Schema parsed '+cache);
+		} catch (e) {
+      log.error("Schema error, retrying parser");
+			log.error(e.message);
+			loadSchema(apikey, game, lang, true, callback);	
+			return;
+		}
+    callback(schemaD);
+    return;
+  }
+};
+
+var loadCSGOSchema = function (apikey, lang, force, callback) {
+  var schemaURL = "http://api.steampowered.com/IEconItems_730/GetSchema/v2/?key=" + apikey + "&language=" + lang;
   log.info(schemaURL);
   var cache = './schema.cache';
   if (force) {
