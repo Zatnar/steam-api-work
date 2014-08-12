@@ -8,13 +8,12 @@ var log = new logger();
 var schema = {};
 var pricelist = {};
 var schemaByDefindex = {};
-<<<<<<< HEAD
 var qualitiesByIndex = {};
 var originsByIndex = {};
 var attributesByDefindex = {};
 var particlesByIndex = {};
 var callAPI = function(url, shit, callback) {
-    if (shit <= 10) {
+    if (shit >= 10) {
 	callback(null);
 	return;
     }
@@ -272,7 +271,6 @@ var getInventoryWorth = function(inv) {
     };
 
     return total;
-=======
 var getAttribute = {};
 
 var callAPI = function (url, callback) {
@@ -582,7 +580,6 @@ var loadCSGOSchema = function (apikey, lang, force, callback) {
     callback(schemaD);
     return;
   }
->>>>>>> 0152eb56c8b8067f3f7fb8a72976c248a0e8b5b7
 };
 
 var updateCurrencyValues = function() {
@@ -638,10 +635,8 @@ var isP2P = function(inventory) {
     return P2P;
 };
 
-<<<<<<< HEAD
 exports.isP2P = isP2P;
 exports.loadSchema = loadSchema;
-=======
 var isP2P = function (inventory) {
 	var P2P = false;
 	if(inventory.num_backpack_slots >= 300){
@@ -653,7 +648,6 @@ var isP2P = function (inventory) {
 exports.isP2P = isP2P;
 exports.loadTF2Schema = loadTF2Schema;
 exports.loadCSGOSchema = loadCSGOSchema;
->>>>>>> 0152eb56c8b8067f3f7fb8a72976c248a0e8b5b7
 exports.loadInventory = loadInventory;
 exports.loadFriends = loadFriends;
 exports.loadBPTF = loadBPTF;
