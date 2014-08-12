@@ -490,15 +490,8 @@ var isP2P = function(inventory) {
 };
 
 exports.isP2P = isP2P;
-exports.loadSchema = loadSchema;
-exports.isP2P = isP2P;
 exports.loadTF2Schema = loadTF2Schema;
 exports.loadCSGOSchema = loadCSGOSchema;
 exports.loadInventory = loadInventory;
 exports.loadFriends = loadFriends;
 exports.loadBPTF = loadBPTF;
-exports.getItemPrice = getItemPrice;
-exports.getSpecificPrice = getSpecificPrice;
-exports.updateCurrencyValues = updateCurrencyValues;
-exports.convertCurrency = convertCurrency;
-exports.getAttributes = getAttributes;
