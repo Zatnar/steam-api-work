@@ -12,42 +12,37 @@ var qualitiesByIndex = {};
 var originsByIndex = {};
 var attributesByDefindex = {};
 var particlesByIndex = {};
-var callAPI = function(url, shit, callback) {
-    if (shit >= 10) {
-	callback(null);
-	return;
-    }
-    request.get({
-	pool: {
-	    maxSockets: 500
-	},
-	uri: url,
-	timeout: 1000 * 7
-    }, function(error, response, body) {
-	if (response != null || response.result != undefined) {
-	    if (response.statusCode == 200) {
-		try {
-		    log.info('call success')
-		    var result = JSON.parse(body);
-		} catch (e) {
-		    log.error('error parsing the api call');
-		    callAPI(url, shit++, callback);
-		    return;
-		}
-		callback(result);
-	    } else if (response.statusCode == 500) {
-		callAPI(url, shit++, callback);
+var callAPI = function (url, shit, callback) {
+	if (shit >= 10) {
+		callback(null);
 		return;
-	    } else {
-		log.error('status code: ') + response.statusCode;
-		callAPI(url, shit++, callback);
-		return;
-	    }
-	} else {
+	}
+  request.get(
+    {
+      pool:{
+        maxSockets: 500
+      },
+      uri: url,
+      timeout: 1000*7
+    },
+    function (error, response, body) {
+	if ((error != null) || (response.statusCode != 200) || (response == null)) {
+	    log.error('call failed, retrying ' + error);
 	    callAPI(url, shit++, callback);
 	    return;
+	} else {
+	    try {
+            log.info('call success')
+            var result = JSON.parse(body);
+          } catch (e) {
+            log.error('error parsing the api call');
+            callAPI(url, shit++, callback);
+            return;
+          }
+          callback(result);
 	}
-    });
+    }
+  );
 };
 var loadBPTF = function(apikey, force, callback) {
     var bptfURL = "http://backpack.tf/api/IGetPrices/v4/?key=" + apikey;
