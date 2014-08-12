@@ -342,35 +342,6 @@ var createLookups = function(schema, callback) {
     callback();
 };
 
-var loadBPTF = function(apikey, force, callback) {
-    var bptfURL = "http://backpack.tf/api/IGetPrices/v4/?key=" + apikey;
-    var cache = './bptf.cache';
-    if (force) {
-	if (fs.existsSync(cache)) {
-	    fs.unlinkSync(cache);
-	}
-	log.info('Downloading bptf prices');
-	callAPI(bptfURL, function(result) {
-	    pricelist = result.response;
-	    fs.writeFileSync(cache, JSON.stringify(pricelist));
-	    callback(pricelist);
-	    return;
-	});
-    } else {
-	try {
-	    pricelist = JSON.parse(fs.readFileSync(cache));
-	    log.info('Price list parsed ' + cache);
-	} catch (e) {
-	    log.error('Price list parsing error, retrying');
-	    log.error(e.message);
-	    loadBPTF(apikey, true, callback);
-	    return;
-	}
-	callback(pricelist);
-	return;
-    }
-};
-
 var loadTF2Schema = function(apikey, lang, force, callback) {
     var schemaURL = "http://api.steampowered.com/IEconItems_440/GetSchema/v0001/?key=" + apikey + "&language=" + lang;
     log.info(schemaURL);
@@ -380,7 +351,7 @@ var loadTF2Schema = function(apikey, lang, force, callback) {
 	    fs.unlinkSync(cache);
 	}
 	log.info('Downloading schema');
-	callAPI(schemaURL, function(result) {
+	callAPI(schemaURL, 0, function(result) {
 	    schemaD = result.result;
 	    fs.writeFileSync(cache, JSON.stringify(schemaD));
 	    callback(schemaD);
@@ -410,7 +381,7 @@ var loadCSGOSchema = function(apikey, lang, force, callback) {
 	    fs.unlinkSync(cache);
 	}
 	log.info('Downloading schema');
-	callAPI(schemaURL, function(result) {
+	callAPI(schemaURL, 0, function(result) {
 	    schemaD = result.result;
 	    fs.writeFileSync(cache, JSON.stringify(schemaD));
 	    callback(schemaD);
