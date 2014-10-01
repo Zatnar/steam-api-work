@@ -364,7 +364,7 @@ var loadTF2Schema = function(apikey, lang, force, callback) {
 	} catch (e) {
 	    log.error("Schema error, retrying parser");
 	    log.error(e.message);
-	    loadSchema(apikey, game, lang, true, callback);
+	    loadTF2Schema(apikey, lang, true, callback);
 	    return;
 	}
 	callback(schemaD);
